@@ -21,5 +21,6 @@ Download Dark Knight HD wallpapers using bash script from this URL: https://wal
 * Fork the repository. There is a fork button in top right
 * Clone the forked repo. Example: `git clone https://github.com/shivtej1505/academy-hackathon`. This will copy the codebase to your local filesystem
 * Add you script under day-1 in week-0. Do `git add your_script.sh` and `git commit -m "some commit message"`
-* Final step is pushing it on remote git server i.e Github. Use this command: `git push origin master`
+* Second last step is pushing it on remote git server i.e Github. Use this command: `git push origin master`
+* Final step is too make a Pull Request here: https://github.com/shivtej1505/academy-hackathon
 
