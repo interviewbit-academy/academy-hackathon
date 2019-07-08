@@ -12,7 +12,7 @@
     * `git clone https://github.com/interviewbit-academy/academy-hackathon`: Clone a remote repository in your local machine.
 
 # Day 1 Assignment:
-Download Dark Knight HD wallpapers using bash script from this URL: https:/wallpapercave.com/dark-knight-hd-wallpaper
+Download Dark Knight HD wallpapers using bash script from this URL: https://wallpapercave.com/dark-knight-hd-wallpaper
 
 ### Steps:
 * Go to this URL: https://github.com/interviewbit-academy/academy-hackathon
