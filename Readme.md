@@ -4,12 +4,14 @@
 * Bash
     * `segregate_photos.sh`: Segregate photos by years. Run this: `cd week-0/day-1/photos` and then run script like this: `bash ../segregate_photos.sh`
     * `sleepy.sh`: Play music for 15 mins and then turn off music. Run like this: `bash sleepy.sh`
+    * Good resource for starting out with bash: https://linuxconfig.org/bash-scripting-tutorial-for-beginners
 * Git
     * `git init`: Initialize a git repository on local.
     * `git add filename`: Add a file to track it using git.
     * `git commit`: Create new version of your project.
     * `git push origin master`: Push your updated local code on remote git server, i.e Github in our case.
     * `git clone https://github.com/interviewbit-academy/academy-hackathon`: Clone a remote repository in your local machine.
+    * Good resource to learn about git: https://www.atlassian.com/git/tutorials/what-is-version-control
 
 # Day 1 Assignment:
 Download Dark Knight HD wallpapers using bash script from this URL: https://wallpapercave.com/dark-knight-hd-wallpaper
