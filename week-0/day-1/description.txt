@@ -1,4 +1,0 @@
-Day 1 of Hackathon.
-We will cover:
-1. Git
-2. Bash
