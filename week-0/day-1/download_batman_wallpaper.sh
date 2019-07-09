@@ -1,0 +1,1 @@
+wget -r -l 1 -A jpg,jpeg,png,gif,bmp -nd -H https://wallpapercave.com/dark-knight-hd-wallpaper
