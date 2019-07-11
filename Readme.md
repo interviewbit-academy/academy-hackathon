@@ -33,18 +33,24 @@ Download Dark Knight HD wallpapers using bash script from this URL: https://wal
     * How data flows from server to client?
     * What is model, view & controller?
 
-# Day 2 Class Assignment:
-Implement an basic endpoint in flask.
+# Day 3 covers: (Find these inside week-0/day-3)
+* MVC using Flask
+* CRUD
+* APIs
+
+# Day 3 Class Assignment:
+Implement a ToDo app in Flask.
 
 ### Steps:
 1. Go to this URL: https://github.com/interviewbit-academy/academy-hackathon
 2. Fork the repository. There is a fork button in top right
 3. Clone the forked repo. Example: `git clone https://github.com/shivtej1505/academy-hackathon`. This will copy the codebase to your local filesystem.
-4. Go to day-2 in week-0. Make a branch using this command: `git checkout -b "add-basic-endpoint"`.
-5. Implement the endpoint. Add you files in git. Commit you code and push using this command: `git push origin add-basic-endpoint`
-6. Go to your forked repo. Make a pull request in master from the branch `add-basic-endpoint`.
-7. Review your pull request. Merge it if it looks good. Otherwise, update your code and start again from step 5.
+4. Go to day-3 in week-0. Run this command: `source setup.sh`. This will setup virtual environment and install flask.
+5. Create a new branch: `git checkout -b YOUR_BRANCH_NAME`
+5. Implement the basic page. Add you files in git. Commit you code and push using this command: `git push origin YOUR_BRANCH_NAME`
+6. Go to your forked repo. Make a pull request in master from the branch YOUR_BRANCH_NAME.
+7. Review your pull request. Merge it if it looks good. Repeat from step 5 until your project is finished.
 
 
-# Day 2 Homework:
-Implement a ToDo manager app which have only one endpoint where you can 
+# Day 3 Homework:
+Will be updated soon.
