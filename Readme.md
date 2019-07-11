@@ -24,3 +24,33 @@ Download Dark Knight HD wallpapers using bash script from this URL: https://wal
 * Second last step is pushing it on remote git server i.e Github. Use this command: `git push origin master`
 * Final step is too make a Pull Request here: https://github.com/shivtej1505/academy-hackathon
 
+# Day 2 covers: (Find these inside week-0/day-2)
+* Git - few more important flows
+    * Git recap: Checkout archived video for the example.
+    * Branching and merging in git. How to make a pull request and review?
+* MVC using Flask as framework
+    * What is virtual environment?
+    * How data flows from server to client?
+    * What is model, view & controller?
+
+# Day 3 covers: (Find these inside week-0/day-3)
+* MVC using Flask
+* CRUD
+* APIs
+
+# Day 3 Class Assignment:
+Implement a ToDo app in Flask.
+
+### Steps:
+1. Go to this URL: https://github.com/interviewbit-academy/academy-hackathon
+2. Fork the repository. There is a fork button in top right
+3. Clone the forked repo. Example: `git clone https://github.com/shivtej1505/academy-hackathon`. This will copy the codebase to your local filesystem.
+4. Go to day-3 in week-0. Run this command: `source setup.sh`. This will setup virtual environment and install flask.
+5. Create a new branch: `git checkout -b YOUR_BRANCH_NAME`
+5. Implement the basic page. Add you files in git. Commit you code and push using this command: `git push origin YOUR_BRANCH_NAME`
+6. Go to your forked repo. Make a pull request in master from the branch YOUR_BRANCH_NAME.
+7. Review your pull request. Merge it if it looks good. Repeat from step 5 until your project is finished.
+
+
+# Day 3 Homework:
+Will be updated soon.
