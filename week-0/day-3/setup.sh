@@ -6,17 +6,18 @@ cd my_todo_app
 # we are using python 3
 # setup python virtual environment
 echo "setting up virtual environment"
-python3 -m venv venv
+python3 -m venv venv2
 
 
 # activate virtual environment
 echo "activating virtual environment"
-. venv/bin/activate
+. venv2/bin/activate
 
 echo "virtual environment created successfully"
 
 # install Flask
 echo "install flask"
+pip3 install Flask
 pip install Flask
 
 echo "--- Flask Installed Successfully ---"
