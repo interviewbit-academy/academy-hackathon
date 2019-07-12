@@ -1,0 +1,6 @@
+DROP TABLE IF EXISTS todo;
+
+CREATE TABLE todo (
+	username TEXT PRIMARY KEY,
+	todo TEXT NOT NULL
+);
