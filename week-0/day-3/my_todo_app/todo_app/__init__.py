@@ -14,39 +14,39 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    def todo_view(todos):
-        the_view = 'List of my todos:' + '<br/>'
-        for todo in todos:
-            the_view += ( todo + '<br/>' )
+    from . import db
+    db.init_app(app)
 
-        the_view += '---- LIST ENDS HERE ---'
-        return the_view
 
     def get_todos_by_name(name):
-        if name == 'depo':
-            return ['Go for run', 'Listen Rock Music']
-        elif name == 'shivang':
-            return ['Read book', 'Play Fifa', 'Drink Coffee']
-        elif name == 'raj':
-            return ['Study', 'Brush']
-        elif name == 'sanket':
-            return ['Sleep', 'Code']
-        elif name == 'aagam':
-            return ['play cricket', 'have tea']
-        else:
+        database = db.get_db()
+        cursor = database.execute('SELECT tasks FROM todo WHERE name=?',(name,)).fetchall()
+        if cursor == None:
             return []
+        todos = []
+        for val in cursor:
+            print(val['tasks'])
+            todos.append(val['tasks'])
+        
+        return todos
+        
 
 
     # http://127.0.0.1:5000/todos?name=duster
     @app.route('/todos')
     def todos():
         name = request.args.get('name')
+        num = request.args.get('num')
+        num=int(num)
         print('---------')
-        print(name)
+        print(name,num)
         print('---------')
 
         person_todo_list = get_todos_by_name(name)
-        return todo_view(person_todo_list)
 
+        from . import view
+        return view.todo_view(person_todo_list[:num])
+
+    
     return app
 
