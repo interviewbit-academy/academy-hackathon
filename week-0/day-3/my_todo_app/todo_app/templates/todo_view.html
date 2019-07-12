@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+	<table  border="1" style="width:100%">
+	{% for todo in todos %}
+		  <tr>
+		    <td align="center"><b>{{todo}}</b></td>
+		  </tr>
+	{% endfor %}
+	</table>
+
+{% endblock %}
