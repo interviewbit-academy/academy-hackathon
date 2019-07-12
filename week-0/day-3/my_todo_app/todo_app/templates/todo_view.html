@@ -1,5 +1,17 @@
-List of my todos: <br/>
-{% for todo in todos %}
-{{todo}}<br/>
-{% endfor %}
----- LIST ENDS HERE ---
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Todo List </title>
+    </head>
+    <body>
+        <div>
+            <span>List of {{name}} todos : </span>
+            <ol type="1">
+                {% for todo in todos %}
+                <li> {{todo}} </li>
+                {% endfor %}
+            </ol>
+            <span>---------</span>
+        </div>
+    </body>
+</html>

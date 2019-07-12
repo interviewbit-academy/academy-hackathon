@@ -2,13 +2,7 @@ import os
 from flask import Flask
 from flask import request
 from flask import render_template
-
-todo_store = {}
-todo_store['depo'] = ['Go for run', 'Listen Rock Music']
-todo_store['raj'] = ['Study', 'Brush']
-todo_store['shivang'] = ['Read book', 'Play Fifa', 'Drink Coffee']
-todo_store['sanket'] = ['Sleep', 'Code']
-todo_store['aagam'] = ['play cricket', 'have tea']
+from flask_mysqldb import MySQL
 
 def create_app(test_config=None):
     # create and configure the app
@@ -19,15 +13,37 @@ def create_app(test_config=None):
     except OSError:
         pass
     
+    app.config['MYSQL_HOST'] = '127.0.0.1'
+    app.config['MYSQL_USER'] = 'root'
+    app.config['MYSQL_PASSWORD'] = ''
+    app.config['MYSQL_DB'] = 'todo'
+    mysql = MySQL(app)
+
+
     # MODEL
-    def select_todos(name):
-        #global todo_store
-        return todo_store[name]
+    def get_todo_by_name(name):
+        try:
+            cur = mysql.connection.cursor()
+            cur.execute( "SELECT list_of_todo FROM todo_list WHERE name LIKE %s", [name] )
+            fetch_data = cur.fetchone()#fetchall()
+            # print("----------------------")
+            ls = "".join(list(fetch_data)).split(",")
+            return ls
+            # print(ls)
+            # print("----------------------")
+        except:
+            return None
     
     def insert_todos(name,todo):
-        get = todo_store[name]
-        get.append(todo)
-        todo_store[name] = get
+        # get = todo_store[name]
+        # get.append(todo)
+        # todo_store[name] = get
+        return 
+    
+    def delete_todos(name,todo):
+        return 
+    
+    def update_todos(name,todo):
         return 
 
     def add_todo_by_name(name,todo):
@@ -43,28 +59,16 @@ def create_app(test_config=None):
         #call to db function
         return
 
-    # # Connecting db
-    # db.init_app(app)
-    def get_todo_by_name(name):
-        # database_connection = db.get_db()
-        # data = database_connection.execute('select tasks from todo_ where username=?',(name,)).fetchall()
-        # print(data)
-        try:
-            return select_todos(name)
-        except:
-            None
-    
     # CONTROLLER
-    # http://127.0.0.1:5000/todos?name=rohit
+    # http://127.0.0.1:5000/todos?name=rohit&todo=dummy
     @app.route('/todos')
     def todos():
         name = request.args.get('name')
         person_todo_list = get_todo_by_name(name) # Connect model and controller
         if person_todo_list == None:
-            # throw 404 to user and browser
+            # throw 404 to user and browser i.e syntax render_template('404.html'), 404
             return render_template('404.html'), 404
-        #return view.todo_view(person_todo_list)   # Connect view and controller
-        return render_template('todo_view.html',todos=person_todo_list)
+        return render_template('todo_view.html',name=name,todos=person_todo_list) # Connect view and controller
 
     @app.route('/add_todos')
     def add_todos():
@@ -83,7 +87,7 @@ def create_app(test_config=None):
     def update_todos():
         name = request.args.get('name')
         todo = request.args.get('todo')
-        return "deleted sucessful"
+        return "update sucessful"
 
     return app
 
