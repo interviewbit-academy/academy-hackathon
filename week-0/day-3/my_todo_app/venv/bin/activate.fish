@@ -15,10 +15,14 @@ function deactivate  -d "Exit virtualenv and return to normal shell environment"
     if test -n "$_OLD_FISH_PROMPT_OVERRIDE"
         functions -e fish_prompt
         set -e _OLD_FISH_PROMPT_OVERRIDE
+
         . ( begin
                 printf "function fish_prompt\n\t#"
                 functions _old_fish_prompt
             end | psub )
+
+        functions -c _old_fish_prompt fish_prompt
+
         functions -e _old_fish_prompt
     end
 
@@ -34,6 +38,12 @@ deactivate nondestructive
 
 set -gx VIRTUAL_ENV "/home/glen/Desktop/academy/Academy Hackathon/academy-hackathon/week-0/day-3/my_todo_app/venv"
 
+# unset irrelevant variables
+deactivate nondestructive
+
+set -gx VIRTUAL_ENV "/Users/shivang/workspace/academy-hackathon/week-0/day-3/my_todo_app/venv"
+
+
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH
 
@@ -47,6 +57,7 @@ if test -z "$VIRTUAL_ENV_DISABLE_PROMPT"
     # fish uses a function instead of an env var to generate the prompt.
 
     # save the current fish_prompt function as the function _old_fish_prompt
+
     . ( begin
             printf "function _old_fish_prompt\n\t#"
             functions fish_prompt
@@ -68,6 +79,33 @@ if test -z "$VIRTUAL_ENV_DISABLE_PROMPT"
         else
             printf "%s(%s)%s%s" (set_color -b blue white) (basename "$VIRTUAL_ENV") (set_color normal) (_old_fish_prompt)
         end
+
+    functions -c fish_prompt _old_fish_prompt
+
+    # with the original prompt function renamed, we can override with our own.
+    function fish_prompt
+        # Save the return status of the last command
+        set -l old_status $status
+
+        # Prompt override?
+        if test -n "(venv) "            
+            printf "%s%s" "(venv) " (set_color normal)
+        else
+            # ...Otherwise, prepend env
+            set -l _checkbase (basename "$VIRTUAL_ENV")
+            if test $_checkbase = "__"
+                # special case for Aspen magic directories
+                # see http://www.zetadev.com/software/aspen/
+                printf "%s[%s]%s " (set_color -b blue white) (basename (dirname "$VIRTUAL_ENV")) (set_color normal)
+            else
+                printf "%s(%s)%s" (set_color -b blue white) (basename "$VIRTUAL_ENV") (set_color normal)
+            end
+        end
+
+        # Restore the return status of the previous command.
+        echo "exit $old_status" | .
+        _old_fish_prompt
+
     end
 
     set -gx _OLD_FISH_PROMPT_OVERRIDE "$VIRTUAL_ENV"

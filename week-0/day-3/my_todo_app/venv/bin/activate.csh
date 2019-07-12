@@ -10,6 +10,12 @@ deactivate nondestructive
 
 setenv VIRTUAL_ENV "/home/glen/Desktop/academy/Academy Hackathon/academy-hackathon/week-0/day-3/my_todo_app/venv"
 
+# Unset irrelevant variables.
+deactivate nondestructive
+
+setenv VIRTUAL_ENV "/Users/shivang/workspace/academy-hackathon/week-0/day-3/my_todo_app/venv"
+
+
 set _OLD_VIRTUAL_PATH="$PATH"
 setenv PATH "$VIRTUAL_ENV/bin:$PATH"
 
