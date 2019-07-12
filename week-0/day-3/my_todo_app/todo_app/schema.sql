@@ -1,0 +1,6 @@
+DROP TABLE IF EXISTS list;
+
+CREATE TABLE list (
+  name TEXT PRIMARY KEY UNIQUE NOT NULL,
+  task TEXT 
+);
