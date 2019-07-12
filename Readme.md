@@ -53,4 +53,9 @@ Implement a ToDo app in Flask.
 
 
 # Day 3 Homework:
-Will be updated soon.
+* Again go through Flask Tutorial(http://flask.pocoo.org/docs/1.0/tutorial/) with the knowledge of MVC.
+* Complete the ToDo App:
+    * Connect Model with the DB.
+    * Write view in separate file.
+    * Add another parameter in URL `num`, which indicate how many todos a user want to view.
+    * Make a pull request in original repository with screenshots.
