@@ -5,14 +5,6 @@ from flask import request
 
 from flask import render_template
 
-# our fake db
-todo_store = {}
-todo_store['depo'] = ['Go for run', 'Listen Rock Music']
-todo_store['shivang'] = ['Read book', 'Play Fifa', 'Drink Coffee']
-todo_store['raj'] = ['Study', 'Brush']
-todo_store['sanket'] = ['Sleep', 'Code']
-todo_store['aagam'] = ['play cricket', 'have tea']
-
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
@@ -23,38 +15,52 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    def select_todos(name):
-        global todo_store
-        return todo_store[name]
+    from . import db
+    db.init_app(app)
+    
+    def select_todos(name,num):
+        dbc = db.get_db()
+        todo_list = []
+        cursor = dbc.execute('SELECT todo FROM todo_table WHERE username=? LIMIT (?)',(name,num)).fetchall()
+        if cursor is None:
+            return None
+        elif name is None:
+            return None
+        elif num is None:
+            return None
+        for row in cursor:
+            todo_list.append(row['todo'])
+        return todo_list
 
     def insert_todo(name, todo):
-        global todo_store
-        current_todos = todo_store[name]
-        current_todos.append(todo)
-        todo_store[name] = current_todos
-        return
+        dbc = db.get_db()
+        error = None
+
+        if not name:
+            error = 'Username not found'
+        elif not todo:
+            error = 'Todo not found'
+
+        if error is None:
+            dbc.execute('INSERT INTO todo_table (username,todo) VALUES (?,?)',(name,todo))
+            dbc.commit()
+            return
 
     def add_todo_by_name(name, todo):
-        # call DB function
         insert_todo(name, todo)
         return
 
-    def get_todos_by_name(name):
+    def get_todos_by_name(name,num):
         try:
-            return select_todos(name)
+            return select_todos(name,num)
         except:
             return None
 
-
-    # http://127.0.0.1:5000/todos?name=duster
     @app.route('/todos')
     def todos():
         name = request.args.get('name')
-        print('---------')
-        print(name)
-        print('---------')
-
-        person_todo_list = get_todos_by_name(name)
+        num = request.args.get('num')
+        person_todo_list = get_todos_by_name(name,num)
         if person_todo_list == None:
             return render_template('404.html'), 404
         else:
@@ -69,4 +75,3 @@ def create_app(test_config=None):
         return 'Added Successfully'
 
     return app
-

@@ -1,7 +1,15 @@
-List of my todos:<br/>
+<div>
 
-{% for todo in todos %}
-{{todo}}<br/>
-{% endfor %}
-
----- LIST ENDS HERE ---
+ 	<h1 style="text-align: center;"> THINGS TO DO is "TODOS!!"</h1>
+        <div style="border: 1px;border-style: outset;background-color: white;">
+            <h3>List of my todos: </h3>
+                <div>
+                    <ol>
+                        {% for todo in todos %}
+				    <li ><input type="checkbox"><span style="border: 1px;border-style: outset;">{{todo}}</span></li></br>
+			{% endfor %}
+		            </ol>
+	            </div>
+	        <h3>---List Ends Here---</h3>
+	    </div>
+</div>
