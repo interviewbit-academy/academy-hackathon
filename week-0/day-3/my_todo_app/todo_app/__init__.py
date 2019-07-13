@@ -19,7 +19,7 @@ def create_app(test_config=None):
     from . import db
     db.init_app(app)
 
-    
+
     def select_todos(name):
         database = db.get_db()
         cursor = database.execute('SELECT tasks FROM todo WHERE name=?',(name,)).fetchall()
@@ -29,7 +29,7 @@ def create_app(test_config=None):
         for val in cursor:
             print(val['tasks'])
             todos.append(val['tasks'])
-        
+
         return todos
 
     def insert_todos(name, todo):
@@ -49,7 +49,7 @@ def create_app(test_config=None):
         database.execute('UPDATE todo SET tasks=? WHERE name=? AND tasks=?',(updatedTodo, name, todo))
         database.commit()
         return
-    
+
     def add_todo_by_name(name,todo):
         insert_todos(name, todo)
         return
@@ -67,7 +67,7 @@ def create_app(test_config=None):
             return select_todos(name)
         except:
             return None
-        
+
     # http://127.0.0.1:5000/todos?name=duster
     @app.route('/todos')
     def todos():
@@ -82,8 +82,8 @@ def create_app(test_config=None):
         if person_todo_list == None:
             return render_template('404.html'), 404
         else:
-            return render_template('todo_view.html',todos=person_todo_list[:num])        
-    
+            return render_template('todo_view.html',todos=person_todo_list[:num])
+
     @app.route('/add_todos')
     def add_todos():
         name = request.args.get('name')
@@ -114,5 +114,5 @@ def create_app(test_config=None):
         print('------')
         update_todos_by_name(name, todo, updatedTodo)
         return 'updated successfully'
-    
+
     return app
