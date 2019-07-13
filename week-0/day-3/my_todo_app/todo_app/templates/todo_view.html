@@ -1,7 +1,15 @@
-List of my todos:<br/>
-
-{% for todo in todos %}
-{{todo}}<br/>
-{% endfor %}
-
----- LIST ENDS HERE ---
+<html>
+    <head>
+        <title>Todo_App</title>
+    </head>
+    <body>
+        <div align=center>
+            <h1 >List Todo:</h1>
+            <div>
+                {%for todo in todos %}
+                {{todo}}<br/>
+                {%endfor%}
+            </div>
+        </div>
+    </body>
+</html>
