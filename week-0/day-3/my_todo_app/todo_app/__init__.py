@@ -1,7 +1,11 @@
 import os
 
-from flask import Flask, request
+from flask import Flask, request, render_template
 
+todo_store = {}
+todo_store['shreyans'] = ['Go for run', 'Sleep']
+todo_store['raj'] = ['Listen to music', 'Do coding']
+todo_store['depo'] = ['Build Application', 'Criket']
 
 def create_app(test_config=None):
     # create and configure the app
@@ -15,24 +19,11 @@ def create_app(test_config=None):
 
     # a simple page that list my todos
 
-    def todo(todo):
-        ans = ""
-        for do in todo:
-            ans = ans + " " + do + "<br>"
-        return ans
-
+    #model
     def get_todo_by_name(name):
-        if name == 'shreyans':
-            my_todo = ['Go for run', 'Sleep']
-        elif name == 'raj':
-            my_todo = ['Listen to music', 'Do coding']
-        elif name == 'depo':
-            my_todo = ['Build Application', 'Fuck']
-        else:
-            my_todo = ['User not registered']
+        return todo_store[name]
 
-        return my_todo
-
+    #controller
     @app.route('/todos')
     def todos():
         name = request.args.get('name')
@@ -40,6 +31,19 @@ def create_app(test_config=None):
         print(name)
         print('--------------------')
 
-        return todo(get_todo_by_name(name))
+        #return todo_view(get_todo_by_name(name))
+        return render_template('todo_view.html', todos=get_todo_by_name(name))
+
+    @app.route('/addTodo')
+    def add_todo():
+        name = request.args.get('name')
+        todo = request.args.get('todo')
+        print('-------------------')
+        print(name, todo)
+        print('-------------------')
+        if name not in todo_store:
+            todo_store[name] = []
+        todo_store[name].append(todo)
+        return 'Added Successfully'
 
     return app
