@@ -1,0 +1,27 @@
+<h1> {{user}} TODO LIST : </h1>
+{% set i = [] %}
+<table border=1>
+
+  {%for l in list%}
+  <tr>
+    <td>{{l}}</td>
+    <td></td>
+    <td><button type="button" name="button"><a href="http://127.0.0.1:5000/delete?index={{i|length}}&name={{user}}">Delete</a></button></td>
+    <td><form action="http://127.0.0.1:5000/update?index={{i|length}}&name={{user}}" method="POST">
+        <input type="text" name="upded" value="">
+        <input type="submit" value="Update">
+    </form></td>
+    {% if  i.append('1') %} {% endif %}
+  </tr>
+
+ {% endfor %}
+</table>
+
+<h3>Add a Todo: </h3>
+<form method="POST" action="http://127.0.0.1:5000/addtodo?name={{user}}">
+  <input type="text" name="todo" value="">
+  <br>
+  <input type="submit">
+</form>
+
+<a href="http://127.0.0.1:5000/"> GO BACK </a>
