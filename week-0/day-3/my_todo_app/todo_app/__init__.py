@@ -1,5 +1,5 @@
 import os
-from flask import Flask,request,current_app, render_template
+from flask import Flask,request,current_app, render_template,redirect,url_for
 from flaskext.mysql import MySQL
 
 
@@ -8,8 +8,7 @@ def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
 
-    #Getting cursor from db.py
-
+    #Getting cursor and conn object from db.py
     from . import db
     cursor,conn = db.init_db(app)
 
@@ -46,27 +45,29 @@ def create_app(test_config=None):
     def get_todos_by_name(name):
         return select_todos(name)
 
-
-    # http://127.0.0.1:5000/todos?name=duster
     @app.route('/todos')
     def todos():
         name = request.args.get('name')
-        # print('---------')
-        # print(name)
-        # print('---------')
 
         person_todo_list = get_todos_by_name(name)
         if person_todo_list == None:
             return render_template('404.html'), 404
         else:
-            return render_template('todo_view.html',todos=person_todo_list)
+            return render_template('index.html',todos=person_todo_list,flag = 1)
 
+    @app.route('/')
+    def index():
+        return render_template('index.html')
+
+    @app.route('/add')
+    def add_t():
+        return render_template('add_todo.html')
 
     @app.route('/add_todos')
     def add_todos():
         name = request.args.get('name')
         todo = request.args.get('todo')
         add_todo_by_name(name, todo)
-        return 'Added Successfully'
-
+        return render_template('add_todo.html',name=name,todo=todo)
+        # return redirect(url_for('add_t'))
     return app

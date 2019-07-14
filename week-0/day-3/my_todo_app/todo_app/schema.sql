@@ -5,7 +5,7 @@ create table user(
     username VARCHAR(100) NOT NULL,
     todo VARCHAR(100) NOT NULL,
     PRIMARY KEY(id));
-
+    
 INSERT INTO user(username,todo) VALUES ('ayush','eat');
 INSERT INTO user(username,todo) VALUES ('ayush','read');
 INSERT INTO user(username,todo) VALUES ('ayush','sleep');

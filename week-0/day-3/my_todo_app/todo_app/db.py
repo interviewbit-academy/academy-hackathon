@@ -15,11 +15,11 @@ def init_db(app):
     conn = mysql.connect()
     cursor =conn.cursor()
 
+    cursor.execute("DROP TABLE IF EXISTS user")
     sqlCommands = f.read().split(';')
 
     for command in sqlCommands:
         try:
-            # print(command)
             cursor.execute(command)
         except :
             print("Skipped: ",command)

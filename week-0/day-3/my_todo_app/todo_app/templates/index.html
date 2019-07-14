@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <title>INDEX PAGE</title>
+        <link href="{{ url_for('static',filename='styles/index.css') }}" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <form action="http://127.0.0.1:5000/todos">
+        
+            <div class="container">
+            <label for="name"><b><H1>Enter Username to Search todo.</H1></b></label>
+            <input type="text" placeholder="Enter Username" name="name" required>
+    
+            <button type="submit">Search</button>
+            </div>
+        
+            <div class="container" style="background-color:#f1f1f1">
+            <button onclick="window.location.href = 'http://127.0.0.1:5000/add';" type="button" class="cancelbtn">Add Data</button>
+            </div>
+        </form>
+        {% if flag %}
+        <u><h2>Todo list here </h2></u><br/>
+        <ul></ul>
+        {% for todo in todos %}
+        <li>{{todo}}</li><br/>
+        {% endfor %}
+        </ul>
+        <br/>List Ends Here <br/>
+        {% endif %}
+    </body>
+</html>
