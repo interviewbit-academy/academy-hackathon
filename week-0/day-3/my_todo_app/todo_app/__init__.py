@@ -53,7 +53,7 @@ def create_app(test_config=None):
         if person_todo_list == None:
             return render_template('404.html'), 404
         else:
-            return render_template('index.html',todos=person_todo_list,flag = 1)
+            return render_template('index.html',todos=person_todo_list,flag = name)
 
     @app.route('/')
     def index():
