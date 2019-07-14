@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}To Do List{% endblock %}</h1>
+
+{% endblock %}
+
+{% block content %}
+  {% for post in posts%}
+    <article class="post">
+      <header>
+        <div>
+          <h1>{{ post }}</h1>
+        </div>
+      </header>
+    </article>
+    {% if not loop.last %}
+      <hr>
+    {% endif %}
+  {% endfor %}
+{% endblock %}
