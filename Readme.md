@@ -59,8 +59,6 @@ Implement a ToDo app in Flask.
     * Write view in separate file.
     * Add another parameter in URL `num`, which indicate how many todos a user want to view.
     * Make a pull request in original repository with screenshots.
-    /home/ayush/Pictures/Screenshot from 2019-07-14 23-40-07.png
-/home/ayush/Pictures/Screenshot from 2019-07-14 23-41-14.png
-/home/ayush/Pictures/Screenshot from 2019-07-14 23-41-29.png
-/home/ayush/Pictures/Screenshot from 2019-07-14 23-41-40.png
+    
+    
    
