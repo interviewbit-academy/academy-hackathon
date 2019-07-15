@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect, url_for
 
 todo_store = {}
 todo_store['shreyans'] = ['Go for run', 'Sleep']
@@ -17,8 +17,10 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # a simple page that list my todos
+    from . import db
+    db.init_app(app)
 
+    # a simple page that list my todos
     #model
     def get_todo_by_name(name):
         return todo_store[name]
@@ -34,16 +36,17 @@ def create_app(test_config=None):
         #return todo_view(get_todo_by_name(name))
         return render_template('todo_view.html', todos=get_todo_by_name(name))
 
-    @app.route('/addTodo')
+    @app.route('/addTodo', methods=['POST'])
     def add_todo():
-        name = request.args.get('name')
-        todo = request.args.get('todo')
+        name = request.form.get('name')
+        todo = request.form.get('todo')
         print('-------------------')
         print(name, todo)
         print('-------------------')
         if name not in todo_store:
             todo_store[name] = []
-        todo_store[name].append(todo)
-        return 'Added Successfully'
+        if todo not in todo_store[name]:
+            todo_store[name].append(todo)
+        return "Success"
 
     return app

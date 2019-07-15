@@ -1,3 +1,44 @@
-{% for task in todos %}
-{{task}}<br>
-{% endfor %}
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <ul>
+  {% for task in todos %}
+  <li>{{task}}</li><br>
+  {% endfor %}
+  </ul>
+
+  <form>
+    <label>Username:
+      <input name="name" id="name"></input>
+    </label>
+    <label>Todo:
+      <input name="todo" id="todo"></input>
+    </label>
+
+    <button onclick="addTodos()">Add Todo</button>
+  </form>
+
+  <script>
+    function addTodos(){
+      console.log("button clicked");
+      var username = $('#name');
+      var todo = $('#todo');
+
+      var username_val = username.val();
+      var todo_val = todo.val();
+
+      console.log(username_val, todo_val);
+
+      $.ajax({
+        url: "/addTodo",
+        type: "POST",
+        data: {
+          name: username_val,
+          todo: todo_val
+        }
+      });
+    }
+  </script>
+</body>
