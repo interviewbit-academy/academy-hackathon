@@ -1,52 +1,43 @@
 import os
-
 from flask import Flask
-from flask import request
-
-
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
-
     # ensure the instance folder exists
+    app.config.from_mapping(
+        SECRET_KEY='dev',
+        DATABASE=os.path.join(app.instance_path,'todo_app.sqlite')
+    )
+
+
+    if test_config is None:
+        # load the instance config, if it exists, when not testing
+        app.config.from_pyfile('config.py', silent=True)
+    else:
+        # load the test config if passed in
+        app.config.from_mapping(test_config)
+
+        
     try:
         os.makedirs(app.instance_path)
     except OSError:
         pass
+    # a simple page that list my todos
+    @app.route('/shivang')
+    def shivang():
+        return ('Wake Up' + '<br/>' +
+            'Drink Coffee' + '<br/>' +
+            'Read Non-fiction Novel' + '<br/>'
+        )
 
-    def todo_view(todos):
-        the_view = 'List of my todos:' + '<br/>'
-        for todo in todos:
-            the_view += ( todo + '<br/>' )
+    from . import db
+    db.init_app(app)
 
-        the_view += '---- LIST ENDS HERE ---'
-        return the_view
+    from . import auth
+    app.register_blueprint(auth.bp)
 
-    def get_todos_by_name(name):
-        if name == 'depo':
-            return ['Go for run', 'Listen Rock Music']
-        elif name == 'shivang':
-            return ['Read book', 'Play Fifa', 'Drink Coffee']
-        elif name == 'raj':
-            return ['Study', 'Brush']
-        elif name == 'sanket':
-            return ['Sleep', 'Code']
-        elif name == 'aagam':
-            return ['play cricket', 'have tea']
-        else:
-            return []
-
-
-    # http://127.0.0.1:5000/todos?name=duster
-    @app.route('/todos')
-    def todos():
-        name = request.args.get('name')
-        print('---------')
-        print(name)
-        print('---------')
-
-        person_todo_list = get_todos_by_name(name)
-        return todo_view(person_todo_list)
+    from . import post
+    app.register_blueprint(post.bp)
+    app.add_url_rule('/', endpoint='index')
 
     return app
-
