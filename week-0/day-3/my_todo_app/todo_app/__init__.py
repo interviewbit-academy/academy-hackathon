@@ -2,71 +2,85 @@ import os
 
 from flask import Flask
 from flask import request
-
 from flask import render_template
+from flaskext.mysql import MySQL
 
-# our fake db
-todo_store = {}
-todo_store['depo'] = ['Go for run', 'Listen Rock Music']
-todo_store['shivang'] = ['Read book', 'Play Fifa', 'Drink Coffee']
-todo_store['raj'] = ['Study', 'Brush']
-todo_store['sanket'] = ['Sleep', 'Code']
-todo_store['aagam'] = ['play cricket', 'have tea']
 
 def create_app(test_config=None):
-    # create and configure the app
-    app = Flask(__name__, instance_relative_config=True)
+	# create and configure the app
+	app = Flask(__name__, instance_relative_config=True)
+	app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+	app.config['MYSQL_DATABASE_USER'] = 'administrator'
+	app.config['MYSQL_DATABASE_PASSWORD'] = '12345678!@#QWEqwe'
+	app.config['MYSQL_DATABASE_DB'] = 'tododb'
+	mysql = MySQL(app)
+	mysql.init_app(app)
+	
+	# ensure the instance folder exists
+	try:
+		os.makedirs(app.instance_path)
+	except OSError:
+		pass
+	
+	
+	#MODEL STRATS HERE
 
-    # ensure the instance folder exists
-    try:
-        os.makedirs(app.instance_path)
-    except OSError:
-        pass
-
-    def select_todos(name):
-        global todo_store
-        return todo_store[name]
-
-    def insert_todo(name, todo):
-        global todo_store
-        current_todos = todo_store[name]
-        current_todos.append(todo)
-        todo_store[name] = current_todos
-        return
-
-    def add_todo_by_name(name, todo):
-        # call DB function
-        insert_todo(name, todo)
-        return
-
-    def get_todos_by_name(name):
-        try:
-            return select_todos(name)
-        except:
-            return None
+	def get_from_db(name):
+		conn=mysql.connect()
+		cur=conn.cursor()
+		cur.execute("SELECT work FROM todolisttable WHERE name = %s",(name))
+		data=cur.fetchall()
+		data1=[A[0] for A in data]
+		conn.commit()
+		if len(data1) == 0 :
+			return None
+		return data1
 
 
-    # http://127.0.0.1:5000/todos?name=duster
-    @app.route('/todos')
-    def todos():
-        name = request.args.get('name')
-        print('---------')
-        print(name)
-        print('---------')
+	def get_todos_by_name(name):
+		try:
+			return get_from_db(name)
+		except:
+			return None
+	
+	def add_in_list(name,work):
+		conn=mysql.connect()
+		cur = conn.cursor()
+		cur.execute("INSERT INTO todolisttable(name, work) VALUES (%s, %s)", (name, work))
+		conn.commit()
+		#mysql.connection.commit()
+		#cur.close()
+		return 
 
-        person_todo_list = get_todos_by_name(name)
-        if person_todo_list == None:
-            return render_template('404.html'), 404
-        else:
-            return render_template('todo_view.html',todos=person_todo_list)
+	def verify_before_add(name,work):
+		return add_in_list(name,work)
+
+	#MODELS ENDS HERE
+	
+	#...............................................................................................................#
 
 
-    @app.route('/add_todos')
-    def add_todos():
-        name = request.args.get('name')
-        todo = request.args.get('todo')
-        add_todo_by_name(name, todo)
-        return 'Added Successfully'
+	#CONTROLLER STARTS HERE
+	
 
-    return app
+	@app.route('/add_todo')
+	def add_todo():
+		name=request.args.get('name')
+		work=request.args.get('work')
+		verify_before_add(name,work)
+		return 'ADDED SUCCESFULLY'
+
+
+	# a simple page that list my todos
+	@app.route('/todos')
+	def todos():
+		name = request.args.get('name')
+		dolist = get_todos_by_name(name)
+		if dolist!=None :
+			return render_template('todo_view.html',worklist = dolist)
+		else :
+			return render_template('404.html'),404
+	#...................................................................................................................#		
+
+	return app
 
