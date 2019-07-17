@@ -1,6 +1,6 @@
 import pymysql
 
-def initialize_db_app(app):
+def initialize_app_db(app):
     db1 = Database(app)
     db1.cur.execute("DROP TABLE IF EXISTS user")
     f = open("todo_app/schema.sql", "r")

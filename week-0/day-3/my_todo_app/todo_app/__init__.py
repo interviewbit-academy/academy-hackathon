@@ -14,7 +14,7 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    db.initialize_db_app(app)
+    db.initialize_app_db(app)
 
     def select_todos(name):
         db1 = db.Database(app)

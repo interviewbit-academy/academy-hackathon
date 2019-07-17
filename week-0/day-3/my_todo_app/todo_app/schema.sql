@@ -1,10 +1,9 @@
 DROP TABLE IF EXISTS user;
 
 create table user(
-     id INT NOT NULL AUTO_INCREMENT,
     username VARCHAR(100) NOT NULL,
     todo VARCHAR(100) NOT NULL,
-    PRIMARY KEY(id));
+    PRIMARY KEY(username,todo));
     
 INSERT INTO user(username,todo) VALUES ('ayush','eat');
 INSERT INTO user(username,todo) VALUES ('ayush','read');
