@@ -1,5 +1,44 @@
-Todo list here <br/>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+
+Todo list here</br>
 {% for todo in todos %}
-{{todo}}<br/>
-{% endfor %}
-List Ends Here <br/>
+{{todo}}</br>
+{% endfor %} List Ends Here
+
+<form >
+    <label>UserName:
+        <input type="text" name="name" id="name">
+    </label></br>
+    <label>Todo:
+        <input type="text" name="todo" id="todo">
+    </label></br>
+    <button id = "btnact" >Add Data</button>
+</form>
+ <script>
+        $(function(){
+            $("#btnact").click(function(e){
+                e.preventDefault();
+                var username = $("#name").val();
+                var todo = $("#todo").val();
+                $.ajax({
+                    type:"POST",
+                    url:"/add_todos",
+                    data:{name:username,todo:todo},
+                    success:function(data){
+                        $("#name").val('');
+                        $("#todo").val('');
+                        alert("Added todo.");
+                    },
+                    error:function(){
+                        alert("Time to debug.");
+                    }
+                });
+            });
+        });
+</script> 
+</body>
+</html>
