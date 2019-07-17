@@ -1,3 +1,4 @@
+#works fine
 # parse all the years in which I have taken photos
 years=$(for i in `ls`; do echo "$i" | cut -d '-' -f 1; done)
 echo $years
