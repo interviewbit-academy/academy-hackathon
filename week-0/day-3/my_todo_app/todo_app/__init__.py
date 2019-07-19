@@ -2,6 +2,12 @@ import os
 
 from flask import Flask
 from flask import request
+from flask import url_for
+from flask import render_template
+#from flask_mysqldb import MySQL
+from flaskext.mysql import MySQL
+
+# our fake db
 
 
 def create_app(test_config=None):
@@ -14,27 +20,40 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    def todo_view(todos):
-        the_view = 'List of my todos:' + '<br/>'
-        for todo in todos:
-            the_view += ( todo + '<br/>' )
+    from . import db
+    conn,cursor = db.init_db(app)
 
-        the_view += '---- LIST ENDS HERE ---'
-        return the_view
+    sql_insert_query = """INSERT INTO `user`
+                          (`name`, `item`) VALUES (%s,%s)"""
+
+    sql_get_query = """SELECT item FROM `user`
+                          WHERE name = (%s)"""
+
+    def select_todos(name):
+        cursor.execute(sql_get_query,(name))
+        data = cursor.fetchall()
+        list = []
+        for d in data:
+            list.append(d[0])
+        #conn.close()
+        return list
+
+    def insert_todo(name,todo):
+        cursor.execute(sql_insert_query,(name,todo))
+        conn.commit()
+        #conn.close()
+        return
+
+    def add_todo_by_name(name, todo):
+        # call DB function
+        insert_todo(name, todo)
+        return
 
     def get_todos_by_name(name):
-        if name == 'depo':
-            return ['Go for run', 'Listen Rock Music']
-        elif name == 'shivang':
-            return ['Read book', 'Play Fifa', 'Drink Coffee']
-        elif name == 'raj':
-            return ['Study', 'Brush']
-        elif name == 'sanket':
-            return ['Sleep', 'Code']
-        elif name == 'aagam':
-            return ['play cricket', 'have tea']
-        else:
-            return []
+        try:
+            return select_todos(name)
+        except:
+            return None
 
 
     # http://127.0.0.1:5000/todos?name=duster
@@ -46,7 +65,21 @@ def create_app(test_config=None):
         print('---------')
 
         person_todo_list = get_todos_by_name(name)
-        return todo_view(person_todo_list)
+        if person_todo_list == None:
+            return render_template('404.html'), 404
+        else:
+            return render_template('todo_view.html',todos=person_todo_list)
+
+
+    @app.route('/add_todos', methods=['GET','POST'])
+    def add_todos():
+        if request.method == 'POST':
+            name = request.form.get('name')
+            todo = request.form.get('todo')
+            print("{},{}".format(name,todo))
+            add_todo_by_name(name, todo)
+            print("working")
+        return "added sucessfuly"
+
 
     return app
-

@@ -1,0 +1,17 @@
+
+
+List of my todo <br/>
+
+{%for todo in todos%}
+{{todo}}<br/>
+{%endfor%}
+
+----------List End-----------
+<form action="/add_todos" method="post">
+<form>
+  <label>User Name
+   <input type = "text" name="name"</input>
+   </label>
+   <input type = "text" name="todo"</input>
+   <button type="submit" onclick="">add todo</button>
+</form>
