@@ -1,5 +1,21 @@
+
+
 List starts here:<br/>
 {% for todo in todos %}
 {{todo[1]}}<br/>
 {% endfor %}
 ---List ends here---
+
+
+<form action="/add_todos" method="post">
+	<label>Username:
+		<input type="text" name="user_name"></input>
+	</label>
+	<br>
+	<label>Todo:
+		<input type="text" name="todo"></input>
+	</label>
+	<br>
+	<button type="submit" onclick="add_todos">Add todo</button>
+</form>
+

@@ -2,6 +2,7 @@ import os
 
 from flask import Flask
 from flask import request
+from flask import redirect, url_for
 from flask import render_template
 import sqlite3 as sql
 
@@ -80,12 +81,12 @@ def create_app(test_config=None):
 			return render_template('todo_view.html',todos=my_todo)
 
 
-	@app.route('/add_todos')
+	@app.route('/add_todos', methods=['POST'])
 	def add_todos():
-		name=request.args.get('name')
-		todo=request.args.get('todo')
+		name=request.form.get('user_name')
+		todo=request.form.get('todo')
 		add_todo_by_name(name, todo)
-		return ('Added succesfully')
+		return redirect(url_for('todos',name=name) )
 
 
 	return app
