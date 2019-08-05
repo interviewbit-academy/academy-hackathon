@@ -15,8 +15,6 @@
     <body>
         <div class="container">
             <div class="row">
-                <!-- <div class="col-sm-4">                
-                </div> -->
                 <div class="col-sm-12" > </br>
                     <span class="text-capitalize" > <strong>List of {{name}} Todos : </strong> </span> </br></br>
                     <ol type="1">
@@ -27,5 +25,35 @@
                 </div>
             </div>
         </div>
+
+        <form>
+            <label>Username:
+                <input type="text" name="name" id="username_text"></input>
+            </label>
+            <label>Your Todo:
+                    <input type="text" name="todo" id="todo_text"></input>
+            </label>
+            <button onclick="add_todos()" >Add Todo</button>
+        </form>
     </body>
+
+    <script>
+        // 1. Detect Button Click
+        // 2. Get username  & todo from form 
+        // 3. Sending the request
+        function add_todos(){
+            console.log("Button clicked")
+            var username = $('#username_text'); // $('.someclass')
+            var todo = $('#todo_text');
+            var username_val = username.val();
+            var todo_val = todo.val();
+            console.log(username_val,todo_val)
+            $.ajax({
+                url: '/add_todos',
+                type: 'POST',
+                data: {name:username_val,todo:todo_val}
+            })
+        }
+    </script>
+
 </html>

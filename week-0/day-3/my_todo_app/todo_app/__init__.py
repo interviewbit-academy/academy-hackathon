@@ -3,6 +3,7 @@ from flask import Flask
 from flask import request
 from flask import render_template
 from flask_mysqldb import MySQL
+from flask import redirect, url_for
 
 def create_app(test_config=None):
     # create and configure the app
@@ -84,24 +85,20 @@ def create_app(test_config=None):
         name = request.args.get('name')
         return todo_list(name)
 
-    @app.route('/add_todos')
+    @app.route('/add_todos', methods=['POST'])
     def add_todos():
-        name = request.args.get('name')
-        todo = request.args.get('todo')
-        print("------------------")
+        # name = request.form.get('name')
+        # todo = request.form.get('todo')
+        name = request.json['name']
+        todo = request.json['todo']
         add_todo_by_name(name,todo)
-        print("Added Sucessfully")
-        print("------------------")
-        return todo_list(name)
+        return redirect(url_for('todos',name=name))
     
     @app.route('/delete_todos')
     def delete_todos():
         name = request.args.get('name')
         todo = request.args.get('todo')
-        print("------------------")
         delete_todo_by_name(name,todo)
-        print("Deleted Sucessfully")
-        print("------------------")
         return todo_list(name)
     
     @app.route('/update_todos')
@@ -109,10 +106,7 @@ def create_app(test_config=None):
         name = request.args.get('name')
         todo = request.args.get('old')
         update_todo = request.args.get('new')
-        print("------------------")
         update_todo_by_name(name,todo,update_todo)
-        print("Updated Sucessful")
-        print("------------------")
         return todo_list(name)
 
     return app
