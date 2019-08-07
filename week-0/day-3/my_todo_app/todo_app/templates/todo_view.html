@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>
+		Todo App
+	</title>
+	<meta name = "viewport" content="width = device-width, initial-scale = 1">
+	<link rel="stylesheet" href="{{ url_for('static', filename = 'css/bootstrap.min.css') }}">
+	<!-- <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico')}}"> -->
+</head>
+
+<body>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+<br/><br/>
+{% with messages = get_flashed_messages() %}
+{% if messages%}
+{% for message in messages%}
+<div class="alert alert-warning alert-dismissable", role = "alert">
+<button type="button" class="close" data-dismiss="alert" aria-label="close"><span aria-hidden="true">&times;</span></button>
+{{ message }}
+	
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+<div role="tabpanel" style="width:800px; margin:20px auto;">
+
+  <ul class="nav nav-tabs" role="tablist">
+  
+    &nbsp;&nbsp;&nbsp;<li role="presentation" class="active"><a href="#basics" aria-controls="basics" role="tab" data-toggle="tab">
+    <h5>Home</h5></a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <li role="presentation"><a href="#add" aria-controls="add" role="tab" data-toggle="tab"><h5>Add Todo</h5></a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <li role="presentation"><a href="#see" aria-controls="see" role="tab" data-toggle="tab"><h5>See Todo List</h5></a></li>
+
+  </ul>
+
+  <!-- Tab panes -->
+<div class="tab-content">
+  <div role="tabpanel" class="tab-pane fade in active" id="basics">
+	<ul>
+	</ul>
+  </div>
+  
+  <div role="tabpanel" class="tab-pane fade" id="add">
+  <div class = "container-fluid">
+  <br>
+	<p>ADD TODO : </p>
+	
+  	<form method="post" action = "/add_todo/">
+  		<input type="text" class="form-control" placeholder="Username" name="username" value="" style="margin: 15px; width:300px">
+  		<br>
+		<input type="text" class="form-control" placeholder="TODO" name="todo" value="" style="margin: 15px; width:300px">
+		<br>
+		<input class="btn btn-primary" style = "border-radius: 12px; margin-left: 30px; width: 100px" type="submit" value="ADD">
+	</form> 
+  </div>
+  </div>
+
+  <div role="tabpanel" class="tab-pane fade" id="see">
+  <div class = "container-fluid">
+  <br>
+	<p>Username : </p>
+	
+  	<form method="post" action = "/see_todo/">
+  		<input type="text" class="form-control" placeholder="Username" name="username" value="" style="margin: 15px; width:300px">
+  		<br>
+  		<input class="btn btn-primary" style = "border-radius: 12px; margin-left: 20px; width: 100px" type="submit" value="See">
+	</form> 
+  </div>
+  </div>
+
+
+</div>
+
+</div>
+
+</body>
+</html>

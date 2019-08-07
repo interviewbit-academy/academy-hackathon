@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>
+		Todo App
+	</title>
+	<meta name = "viewport" content="width = device-width, initial-scale = 1">
+	<link rel="stylesheet" href="{{ url_for('static', filename = 'css/bootstrap.min.css') }}">
+	<!-- <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico')}}"> -->
+</head>
+
+<body>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+<br/><br/>
+<a href="{{ url_for('dashboard')}}" class="btn btn-default" style="margin-left: 20px; background-color: lightblue;"> Go Back </a>
+<div class="well" style="background-color: lightblue; width:800px; margin:0px auto;">
+<p><b>{{ session['username'].capitalize() }}'s</b> todo list:</p>
+</div>
+<div class ="container-fluid" style="width:800px; margin:20px auto;">
+<ul>
+{% for todo in todos %}
+ 
+ <li>
+ <form action="/delete_todo/" method="post" class = "form-inline">
+    &nbsp;&nbsp;&nbsp;&nbsp;{{ todo['todo'] }}<button type ="submit" class = "btn btn-default" style="margin :20px; background-color: #F99A89;" name="delete" value="{{ todo['todo'] }}" type="submit">Delete</button>
+</form>
+<form action="/update_todo/" method="post" class = "form-inline">
+	<input type="text" class="form-control" placeholder="Todo" name="todo" value="" style="margin: 15px; width:300px">
+    <button type ="submit" class = "btn btn-default" style="margin :20px; background-color: #C7D53C;" name="update" value="{{ todo['todo'] }}" type="submit">Update</button>
+
+</form>
+</li>
+{%endfor%}
+</ul>
+</div>
+
+</body>
+
+</html>
