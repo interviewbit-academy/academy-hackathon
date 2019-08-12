@@ -11,11 +11,11 @@ import sqlite3 as sql
 
 def create_app(test_config=None):
 
-	#conn = sql.connect("database.db")
-	#print('Opened database succesfully')
-	#conn.execute('CREATE TABLE todo_list_db (NAME TEXT, TASK TEXT)')
-	#print('Table created succesfully')
-	#conn.close()
+	'''conn = sql.connect("database.db")
+	print('Opened database succesfully')
+	conn.execute('CREATE TABLE todo_list_db (ID INTEGER PRIMARY KEY, NAME TEXT, TASK TEXT)')
+	print('Table created succesfully')
+	conn.close()'''
 
     # create and configure the app
 	app = Flask(__name__, instance_relative_config=True)
@@ -33,24 +33,38 @@ def create_app(test_config=None):
 		print(name)
 		
 		cur = con.cursor()
-		cur.execute('SELECT * FROM todo_list_db WHERE NAME LIKE "{goal}" '.\
+		cur.execute('SELECT ID, NAME, TASK FROM todo_list_db WHERE NAME LIKE "{goal}" '.\
 			format(goal = name))
 
-		#rows = cur.fetchall()
-		print(cur)
+		rows = cur.fetchall()
+		print('///')
+		for row in rows:
+			print(row[0])
+		print('///')
 		con.commit()
 		
-		return cur
+		return rows
 
 	def insert_todos(name, todo):
-			con = sql.connect("database.db")
-			cur = con.cursor()
+		con = sql.connect("database.db")
+		cur = con.cursor()
 
-			cur.execute('INSERT INTO todo_list_db (NAME, TASK) VALUES (?, ?)', (name, todo))
-			con.commit()
-			print('Added succesfully')
-			con.close()
-			return
+		cur.execute('INSERT INTO todo_list_db (NAME, TASK) VALUES (?, ?)', (name, todo))
+		con.commit()
+		print('Added succesfully')
+		con.close()
+		return
+
+	def delete_todo(iden):
+		con = sql.connect("database.db")
+		cur = con.cursor()
+
+		cur.execute('DELETE FROM todo_list_db WHERE ID={goal} '.\
+			format(goal=iden))
+		con.commit()
+		print('Deleted')
+		con.close()
+		return
 
 
 
@@ -65,6 +79,8 @@ def create_app(test_config=None):
 		except:
 			None
 
+	def delete_todo_by_id(iden):
+		return delete_todo(iden)
 
 
 	@app.route('/todos')
@@ -86,7 +102,14 @@ def create_app(test_config=None):
 		name=request.form.get('user_name')
 		todo=request.form.get('todo')
 		add_todo_by_name(name, todo)
-		return redirect(url_for('todos',name=name) )
+		return redirect(url_for('todos',name=name))
+
+	@app.route('/delete_todos')
+	def delete_todos():
+		name=request.args.get('name')
+		iden=request.args.get('iden')
+		delete_todo_by_id(iden)
+		return redirect(url_for('todos',name=name))
 
 
 	return app

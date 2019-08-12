@@ -1,21 +1,41 @@
-
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
 
 List starts here:<br/>
 {% for todo in todos %}
-{{todo[1]}}<br/>
+{{todo[0]}}
+{{todo[2]}}<br/>
 {% endfor %}
 ---List ends here---
 
 
 <form action="/add_todos" method="post">
 	<label>Username:
-		<input type="text" name="user_name"></input>
+		<input type="text" name="user_name" id="username_text"></input>
 	</label>
 	<br>
 	<label>Todo:
-		<input type="text" name="todo"></input>
+		<input type="text" name="todo" id="todo_text"></input>
 	</label>
 	<br>
-	<button type="submit" onclick="add_todos">Add todo</button>
+	<button onclick="add_todos()">Add todo</button>
 </form>
+
+<script type="text/javascript">
+	function add_todos() {
+		var username = $('#username_text');
+		var todo = $('#todo_text');  
+		console.log("button clicked");
+		username_val = username.val();
+		todo_val = todo.val();
+		console.log(username_val, todo_val);
+		$.ajax({
+			url: '/add_todos'
+			type: 'POST'
+			data: {user_name: username_val, todo: todo_val}
+		});
+
+	}
+</script>
 
